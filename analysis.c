@@ -4,8 +4,8 @@
 #include "list.h"
 #include "list_sort.h"
 
-#define len 100
-#define times 20
+#define len 10000
+#define times 1000
 
 u16 set_rand(void){
   time_t current_time;
@@ -38,6 +38,7 @@ void analysis(void) {
         list_for_each_entry_safe(item, is, &testlist, list) {
             item->i = set_rand();
         }
+        
         clock_gettime(CLOCK_MONOTONIC, &time_start);
         list_sort(&order, &testlist, cmpu16);
         clock_gettime(CLOCK_MONOTONIC, &time_end);  
