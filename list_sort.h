@@ -1,3 +1,5 @@
+#ifndef __LIST_SORT_H__
+#define __LIST_SORT_H__
 #include "list.h"
 /*
  * lsit_sort.c
@@ -17,3 +19,4 @@ __attribute__((nonnull(2, 3))) void
 list_sort(void *priv, struct list_head *head,
           int (*cmp)(void *priv, const struct list_head *a,
                      const struct list_head *b));
+#endif
