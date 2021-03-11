@@ -118,14 +118,14 @@ static inline int cmpu16(void *arrange, const struct list_head *a, const struct 
 }
 
 // Lagged Fibonacci generators
-// Sn ≡ Sn−j ⋆ Sn−k (modm), 0 < j < k
+// Sn ≡ Sn−j ⋆ Sn−k (mod m), 0 < j < k
 static inline int self_random(int seed_f, int seed_s) {
   int sn_1 = 0;
   int sn_2 = 1;
   int sn = random() % 1024;
   int i = seed_f;
   while (i > 0) {
-    sn = (sn_2 & sn_1) % (seed_s + 1);
+    sn = (sn_2 ^ sn_1) % (seed_s + 1);
     sn_1 = sn_1 + 3;
     sn_2 = sn_2 + 7;
     i--;
@@ -138,6 +138,17 @@ static inline void random_array(u16 values[], u16 size, u16 seed) {
   srandom(seed & time(&current_time));
   for (u16 i = 0; i < size; i++) {
     values[i] = self_random(random() % 1024, random() % 1024);
+  }
+}
+
+static inline void random_u16(struct list_head *head, unsigned int size, u16 seed) {
+  time_t current_time;
+  srandom(seed & time(&current_time));
+  struct listitem *item = NULL;
+  for (size_t i = 0;i < size;i++) {
+    item = (struct listitem*)malloc(sizeof(struct listitem));
+    item->i = self_random(random() % 1024, random() % 1024);
+    list_add(&item->list, head);
   }
 }
 
